@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopping-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shopping
+  template:
+    metadata:
+      labels:
+        app: shopping
+    spec:
+      containers:
+      - name: shopping-container
+        image: shopping-app
+        imagePullPolicy: Never
+
+        ports:
+        - containerPort: 5000
+
+        # ✅ Resources
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+
+        # ✅ ConfigMap ENV
+        env:
+        - name: APP_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: shopping-config
+              key: APP_MODE
+        - name: APP_COLOR
+          valueFrom:
+            configMapKeyRef:
+              name: shopping-config
+              key: APP_COLOR
+
+        # ✅ Secret ENV
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: shopping-secret
+              key: DB_USER
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: shopping-secret
+              key: DB_PASS
+
+        # ✅ ConfigMap + Secret Volumes
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+        - name: secret-volume
+          mountPath: /app/secret
+
+        # ✅ Liveness Probe
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 10
+
+        # ✅ Readiness Probe
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        # ✅ Startup Probe
+        startupProbe:
+          httpGet:
+            path: /
+            port: 5000
+          failureThreshold: 30
+          periodSeconds: 5
+
+      # ✅ Volumes
+      volumes:
+      - name: config-volume
+        configMap:
+          name: shopping-config
+      - name: secret-volume
+        secret:
+          secretName: shopping-secret
