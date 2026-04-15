@@ -1,5 +1,4 @@
-cat > frontend/app.js <<'EOF'
-const API_BASE = "http://localhost:5000";
+const API_BASE = "/api";
 
 async function loadItems() {
   const response = await fetch(`${API_BASE}/items`);
@@ -30,4 +29,3 @@ async function addItem() {
 }
 
 loadItems();
-EOF
