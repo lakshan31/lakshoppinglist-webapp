@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: lak-backend
-          image: lakshoppinglist-backend:dev
-          imagePullPolicy: IfNotPresent
+          image: lakshan31/lakshoppinglist-backend:v1
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000

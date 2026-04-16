@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: lak-frontend
-          image: lakshoppinglist-frontend:dev
-          imagePullPolicy: IfNotPresent
+          image: lakshan31/lakshoppinglist-frontend:v1
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
