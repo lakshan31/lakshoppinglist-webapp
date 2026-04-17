@@ -1,0 +1,18 @@
+services:
+  lak-backend-service:
+    build:
+      context: ./backend/LakShoppingList
+      dockerfile: Dockerfile
+    container_name: lak-backend-service
+    ports:
+      - "5000:5000"
+
+  lak-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lak-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - lak-backend-service

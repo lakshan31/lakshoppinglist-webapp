@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lak-backend
+  namespace: lak-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lak-backend
+  template:
+    metadata:
+      labels:
+        app: lak-backend
+    spec:
+      containers:
+        - name: lak-backend
+          image: lakshan31/lakshoppinglist-backend:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
