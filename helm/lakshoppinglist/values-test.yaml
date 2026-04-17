@@ -1,0 +1,20 @@
+namespace: lak-test
+
+backend:
+  replicaCount: 1
+  image:
+    repository: lakshan31/lakshoppinglist-backend
+    tag: v1
+    pullPolicy: Always
+  service:
+    port: 5000
+
+frontend:
+  replicaCount: 2
+  image:
+    repository: lakshan31/lakshoppinglist-frontend
+    tag: v1
+    pullPolicy: Always
+  service:
+    type: NodePort
+    port: 80
