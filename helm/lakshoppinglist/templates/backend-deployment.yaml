@@ -13,6 +13,10 @@ spec:
       labels:
         app: lak-backend
     spec:
+      nodeSelector:
+{{ toYaml .Values.scheduling.backend.nodeSelector | indent 8 }}
+      affinity:
+{{ toYaml .Values.scheduling.backend.affinity | indent 8 }}
       containers:
         - name: lak-backend
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
