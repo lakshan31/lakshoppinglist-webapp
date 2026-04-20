@@ -33,3 +33,21 @@ postgres:
     password: postgres
   storage:
     size: 1Gi
+
+scheduling:
+  backend:
+    nodeSelector:
+      disktype: ssd
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: workload
+                  operator: In
+                  values:
+                    - backend
+
+  postgres:
+    nodeSelector:
+      disktype: ssd
